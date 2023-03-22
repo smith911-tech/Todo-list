@@ -11,15 +11,17 @@ import { useState, useEffect } from "react";
         localStorage.setItem("Todolist", JSON.stringify(Todolist));
     }, [Todolist]);
     function Addtodolist() {
-        if (inputTodovalue.trim() !== "") {
-        const newTodoItem = {
-            id: Date.now(),
-            text: inputTodovalue
-        };
-        setTodolist([...Todolist, newTodoItem]);
-        setinputTodovalue("");
-        }
-    }
+  if (inputTodovalue.trim() !== "") {
+    const newTodoItem = {
+      id: Date.now(),
+      text: inputTodovalue,
+      time: new Date().toLocaleString('en-US', { dateStyle: 'short', timeStyle: 'short', hour12: true })
+    };
+    setTodolist([...Todolist, newTodoItem]);
+    setinputTodovalue("");
+  }
+}
+
     function changeinput(e) {
         setinputTodovalue(e.target.value);
     }
@@ -100,7 +102,7 @@ import { useState, useEffect } from "react";
             <ul>
                 {Todolist.map((todo, index) => (
                 <li key={todo.id}>
-                        <label>
+                    <span className="time">{todo.time}</span>
                 <input
                     type="checkbox"
                     checked={todo.completed}
@@ -109,7 +111,6 @@ import { useState, useEffect } from "react";
                 <span style={{ textDecoration: todo.completed ? "line-through" : "none" }}>
                     {todo.text}
                 </span>
-                </label>
                     <div className="div-edit-update">
                     <i onClick={() => handleUpdateClick(todo)}
                         className="fa-solid fa-pen-to-square"
